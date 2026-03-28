@@ -38,6 +38,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     (icon: Icons.people_rounded,         label: 'Empleados'),
     (icon: Icons.assignment_rounded,     label: 'Planes'),
     (icon: Icons.track_changes_rounded,  label: 'Onboardings'),
+    (icon: Icons.auto_awesome_rounded,   label: 'Asistente IA'),
   ];
 
   @override
@@ -450,7 +451,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ..._navItems.asMap().entries.map((e) {
           final selected = _selectedIndex == e.key;
           return InkWell(
-            onTap: () => setState(() => _selectedIndex = e.key),
+            onTap: () {
+              if (e.key == 4) {
+                context.push('/admin/chat');
+              } else {
+                setState(() => _selectedIndex = e.key);
+              }
+            },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -496,13 +503,27 @@ class _AdminDashboardState extends State<AdminDashboard> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Color(0xFF1A1A2E))),
         const Spacer(),
         IconButton(icon: const Icon(Icons.refresh_rounded, color: Color(0xFF6B7280)), onPressed: _loadData, tooltip: 'Actualizar'),
-        if (actions[_selectedIndex] != null) ...[
+        if (_selectedIndex == 2) ...[           // solo en Planes
           const SizedBox(width: 8),
+          OutlinedButton.icon(
+            onPressed: () => context.push('/admin/chat'),
+            icon: const Icon(Icons.auto_awesome_rounded, size: 16),
+            label: const Text('Asistente IA'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFF7C3AED),
+              side: const BorderSide(color: Color(0xFF7C3AED)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+        if (actions[_selectedIndex] != null) ...[
           ElevatedButton.icon(
-              onPressed: actions[_selectedIndex],
-              icon: const Icon(Icons.add, size: 18),
-              label: Text(labels[_selectedIndex]!),
-              style: primaryBtnStyle()),
+            onPressed: actions[_selectedIndex],
+            icon: const Icon(Icons.add, size: 18),
+            label: Text(labels[_selectedIndex]!),
+            style: primaryBtnStyle(),
+          ),
         ],
       ]),
     );

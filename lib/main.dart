@@ -5,6 +5,7 @@ import 'providers/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/admin/admin_dashboard.dart';
 import 'screens/empleado/empleado_dashboard.dart';
+import 'screens/admin/admin_chat_screen.dart';
 
 void main() {
   runApp(
@@ -58,6 +59,10 @@ GoRouter _router(AuthProvider auth) {
       GoRoute(
         path: '/empleado/dashboard',
         builder: (context, state) => const EmpleadoDashboard(),
+      ),
+      GoRoute(
+        path: '/admin/chat',
+        builder: (context, state) => const AdminChatScreen(),
       ),
     ],
   );
